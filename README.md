@@ -120,7 +120,7 @@ springcloud整合多模块之间调用
      */
     @RequestMapping("sayHello")
     String sayHello(@RequestParam("str") String str);
-    ```
+  ```
   2. 所操作的客户端模块依赖api，并service实现api中所对应的接口文件
   ```
   @RestController
