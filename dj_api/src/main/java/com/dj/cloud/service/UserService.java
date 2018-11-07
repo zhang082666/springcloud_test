@@ -1,12 +1,15 @@
 package com.dj.cloud.service;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.dj.cloud.pojo.User;
+import org.springframework.web.bind.annotation.*;
 
 public interface UserService {
 
-    @RequestMapping("seyUser-api")
+    @RequestMapping(value = "seyUser-api", method = RequestMethod.POST)
     String seyUser(@RequestParam("userName") String userName);
+
+    @PostMapping("findUser")
+    User findUser(@RequestBody User user);
 
 }
