@@ -1,0 +1,14 @@
+server:
+  port: 7070
+
+#eureka注册中心配置
+eureka:
+  instance.hostname: localhost #一般为域名
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    # 自我保护
+    enable-self-preservation: false
+    # 扫描失效服务间隔
+    eviction-interval-timer-in-ms: 3000
