@@ -148,3 +148,24 @@ springcloud整合多模块之间调用
   @Autowired
   private UserServiceClient userService;
   ```
+###传递实体类参数时注意事项
+  1. RequestMapping请求必须是POST方式，返回格式默认为xml格式，可以转换为json格式
+  ```
+  @RequestMapping(value = "findUserByOrderFunction", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+  @ResponseBody
+  public User findUserByOrderFunction(User user){
+      return userService.findUser(user);
+  }
+  ```
+  2. 传递参数格式必须是json传输，service方法中需要加入注解
+  ```
+  @PostMapping("findUser")
+  User findUser(@RequestBody User user);
+  ```
+  3. 实现类中接收参数也必须是json格式
+  ```
+  @Override
+  public User findUser(@RequestBody User user) {
+      return user;
+  }
+  ```
