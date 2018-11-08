@@ -169,3 +169,68 @@ springcloud整合多模块之间调用
       return user;
   }
   ```
+
+### 添加zull路由，访问同一端口号请求到不同的模块
+1. 创建zull模块
+
+2. 在pom文件中添加依赖
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-zuul</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-eureka</artifactId>
+</dependency>
+```
+
+3. 配置文件配置
+server:
+  port: 6064
+
+spring:
+  application:
+    name: dj-zull  # 配置中心的名称
+
+#连接注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6060/eureka/
+  instance:
+    prefer-ip-address: true  #支持域名直接解析ip
+
+zuul:
+  add-host-header: true
+  forceOriginalQueryStringEncoding: true
+  prefix: /api  #访问前缀
+  host:
+    socket-timeout-millis: 100000
+    connect-timeout-millis: 100000
+  routes:
+    user-route:   #名称自定义，必须为xxx-route
+      path: /user/**    #访问路径
+      sensitive-headers: "*"
+      serviceId: user-service   #user服务的名称
+      custom-sensitive-headers: true
+    order-route:
+      path: /order/**
+      sensitive-headers: "*"
+      serviceId: order-service   #order服务的名称
+      custom-sensitive-headers: true
+    #如果还有则在继续添加
+    
+  4. 创建启动类并加入注解
+  ```
+  @SpringBootApplication
+  @EnableZuulProxy
+  @EnableEurekaClient
+  public class ZullStart {
+
+      public static void main(String[] args) {
+          SpringApplication.run(ZullStart.class, args);
+      }
+
+  }
+  ```
