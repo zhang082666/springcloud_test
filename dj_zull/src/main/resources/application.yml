@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: dj-zull  # 配置中心的名称
+
+#连接注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7070/eureka/
+  instance:
+    prefer-ip-address: true  #支持域名直接解析ip
+
+zuul:
+  add-host-header: true
+  forceOriginalQueryStringEncoding: true
+  prefix: /api  #访问前缀
+  host:
+    socket-timeout-millis: 100000
+    connect-timeout-millis: 100000
+  routes:
+    user-route:   #名称自定义，必须为xxx-route
+      path: /user/**    #访问路径
+      sensitive-headers: "*"
+      serviceId: user-service   #user服务的名称
+      custom-sensitive-headers: true
+    order-route:
+      path: /order/**
+      sensitive-headers: "*"
+      serviceId: order-service   #order服务的名称
+      custom-sensitive-headers: true
+    #如果还有则在继续添加

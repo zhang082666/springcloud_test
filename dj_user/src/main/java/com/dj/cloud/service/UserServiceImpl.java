@@ -17,8 +17,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUser(@RequestBody User user) {
-        System.out.println(user.getId());
-        System.out.println(user.getUsername());
         return user;
     }
 
