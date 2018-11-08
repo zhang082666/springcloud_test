@@ -235,3 +235,34 @@ zuul:
 
   }
   ```
+### 使用熔断器，抛异常是返回
+  1. 在需要使用熔断器的项目中的pom增加
+  ```
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-hystrix</artifactId>
+  </dependency>
+  ```
+  2. 在需要使用熔断器的项目配置文件中新增
+  ```
+  #断路器配置
+  circuitBreaker:
+    # 请求总数下限
+    requestVolumeThreshold: 20
+    # 休眠时间窗
+    sleepWindowInMilliseconds: 3000
+    # 错误百分比下限
+    errorThresholdPercentage: 50
+  feign:
+    hystrix:
+      enabled: true
+  ```
+ 3. 新增熔断类，xxxxFallBack，该类实现客户端接口，如UserServiceClientFailBack
+ ```
+ @Component
+ public class UserServiceClientFailBack implements UserServiceClient
+ ```
+ 4. 在客户端接口中的@FeignClient注解中新增属性
+ ```
+ @FeignClient(value = "user-service",fallback = UserServiceClientFailBack.class)
+ ```
