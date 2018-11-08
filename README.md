@@ -104,7 +104,7 @@ springcloud整合多模块之间调用
     instance:
       prefer-ip-address: true  #支持域名直接解析ip
    ```
-####spring cloud项目大致创建完成，注意配置Eureka注册中心端口号与客户端端口号必须保持唯一性！！！
+### spring cloud项目大致创建完成，注意配置Eureka注册中心端口号与客户端端口号必须保持唯一性！！！
 
 ### springcloud跨模块方法调用
   1. 创建子项目api模块，并增加相对应的接口文件
