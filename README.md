@@ -266,3 +266,76 @@ zuul:
  ```
  @FeignClient(value = "user-service",fallback = UserServiceClientFailBack.class)
  ```
+ 
+### 配置中心调用远程仓库配置文件并加载到项目中
+  1. 在git中新增项目，复制项目的路径
+  
+  2. 项目使用配置中心，需要将application.yml更改为bootstrap.yml（两个文件可以共存，bootstrap里只需要配置注册中心以及配置中心的配置即可，项目启动时bootstrap优先级高）
+  
+  3. 新建config模块，配置pom文件
+  ```
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-config-server</artifactId>
+  </dependency>
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-eureka</artifactId>
+  </dependency>
+  ```
+  
+  4. 在启动类中增加
+  ```
+  @EnableConfigServer
+  @EnableEurekaClient
+  @SpringBootApplication
+  public class ConfigStart {
+
+      public static void main(String[] args) {
+          SpringApplication.run(ConfigStart.class, args);
+      }
+
+  }
+  ```
+  
+  5. 在配置文件中 bootstrap.yml 新增
+  ```
+  server:
+    port: xxx
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8080/eureka/
+    instance:
+      prefer-ip-address: true
+  spring:
+    application:
+      name: dj-config  # 配置中心的名称
+    cloud:
+      config:
+        server:
+          git:
+            uri: https://gitlab.com/herogosup/dj-cloud-config-repo.git  #gitlib地址
+            username:    #gitlib的用户名 和 密码  如果是public 项目，则不需要写
+            password:
+  ```
+  
+  6. 在调用统一配置中心的项目中调用配置，如user服务中调用统一配置中心，如调用配置中心的test-dev.yml
+  ```
+  spring:
+  cloud:
+      config:
+        discovery:
+          enabled: true
+          serviceId: dj-config #配置中心的名称
+        name: test  #名称前缀
+        profile: dev #名称后缀
+  ```
+  
+  7. 在调用统一配置中心的项目中pom文件增加
+  ```
+  <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-config</artifactId>
+  </dependency>
+  ```
