@@ -186,6 +186,7 @@ springcloud整合多模块之间调用
 ```
 
 3. 配置文件配置
+```
 server:
   port: 6064
 
@@ -220,7 +221,7 @@ zuul:
       serviceId: order-service   #order服务的名称
       custom-sensitive-headers: true
     #如果还有则在继续添加
-    
+  ```
   4. 创建启动类并加入注解
   ```
   @SpringBootApplication
