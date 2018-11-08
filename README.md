@@ -148,7 +148,7 @@ springcloud整合多模块之间调用
   @Autowired
   private UserServiceClient userService;
   ```
-###传递实体类参数时注意事项
+### 传递实体类参数时注意事项
   1. RequestMapping请求必须是POST方式，返回格式默认为xml格式，可以转换为json格式
   ```
   @RequestMapping(value = "findUserByOrderFunction", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
