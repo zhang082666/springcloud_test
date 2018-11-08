@@ -13,6 +13,7 @@
         <module>dj_order</module>
         <module>dj_api</module>
         <module>dj_zull</module>
+        <module>dj_config</module>
     </modules>
     <packaging>pom</packaging>
 

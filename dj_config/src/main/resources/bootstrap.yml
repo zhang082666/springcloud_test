@@ -1,0 +1,18 @@
+server:
+  port: 8083
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7070/eureka/
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: dj-config  # 配置中心的名称
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/zhang082666/springcloud-config-text.git  #github地址
+          username:    #gitlib的用户名 和 密码  如果是public 项目，则不需要写
+          password:

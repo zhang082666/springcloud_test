@@ -1,0 +1,17 @@
+#连接注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7070/eureka/
+  instance:
+    prefer-ip-address: true  #支持域名直接解析ip
+spring:
+  application:
+    name: order-service #服务名
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: dj-config #配置中心的名称
+      name: order  #名称前缀
+      profile: dev #名称后缀
