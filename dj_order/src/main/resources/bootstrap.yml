@@ -15,3 +15,5 @@ spring:
         serviceId: dj-config #配置中心的名称
       name: order  #名称前缀
       profile: dev #名称后缀
+swagger:
+  enabled: true
